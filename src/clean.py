@@ -1,4 +1,5 @@
 import shutil
+import sys
 from pathlib import Path
 from typing import Union
 
@@ -52,5 +53,5 @@ class OraganizeFiles:
 
 if __name__ == "__main__":
     org_files = OraganizeFiles()
-    org_files('/Users/ali/Downloads')
+    org_files(sys.argv[1])
     logger.info("Done!")
