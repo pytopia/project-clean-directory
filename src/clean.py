@@ -49,7 +49,8 @@ class OraganizeFiles:
 
             DEST_DIR.mkdir(exist_ok=True)
             logger.info(f"Moving {file_path} to {DEST_DIR}...")
-            shutil.move(str(file_path), str(DEST_DIR))
+            shutil.move(file_path, DEST_DIR / file_path.name)
+
 
 if __name__ == "__main__":
     org_files = OraganizeFiles()
