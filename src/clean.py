@@ -1,4 +1,5 @@
 import shutil
+from collections import defaultdict
 import sys
 from pathlib import Path
 from typing import Union
@@ -16,7 +17,8 @@ class OraganizeFiles:
     """
     def __init__(self):
         ext_dirs = read_json(DATA_DIR / "extensions.json")
-        self.extensions_dest = {}
+        # Set the Others folder for extensions that don't exist in the JSON file
+        self.extensions_dest = defaultdict(lambda: 'other')
         for dir_name, ext_list in ext_dirs.items():
             for ext in ext_list:
                 self.extensions_dest[ext] = dir_name
@@ -42,11 +44,8 @@ class OraganizeFiles:
 
             # move files
             file_extensions.append(file_path.suffix)
-            if file_path.suffix not in self.extensions_dest:
-                DEST_DIR = directory / 'other'
-            else:
-                DEST_DIR = directory / self.extensions_dest[file_path.suffix]
-
+            
+            DEST_DIR = directory / self.extensions_dest[file_path.suffix]
             DEST_DIR.mkdir(exist_ok=True)
             logger.info(f"Moving {file_path} to {DEST_DIR}...")
             shutil.move(str(file_path), str(DEST_DIR))
